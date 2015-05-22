@@ -1,0 +1,48 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+STIX_URL="http://downloads.sourceforge.net/project/stixfonts/Current%20Release/STIXv1.1.1-word.zip?r=http%3A%2F%2Fsourceforge.net%2Fprojects%2Fstixfonts%2Ffiles%2FCurrent%2520Release%2F&ts=1400494576&use_mirror=softlayer-ams"
+UNICODE_XML_URL="http://www.w3.org/2003/entities/2007xml/unicode.xml"
+
+all: MOZTIXMath-Regular.woff
+
+STIX.zip:
+	 # Download the STIX fonts.
+	@WGET@ $(STIX_URL) -O $@;
+	touch $@
+
+unicode.xml:
+	 # Download the unicode.xml file from the "XML Entity Definitions for
+	 # Characters"
+	@WGET@ $(UNICODE_XML_URL)
+
+chars.txt: extractChars.xsl unicode.xml
+	 # Extract the relevant information on characters from unicode.xml
+	@XSLTPROC@ $^ > $@
+
+STIXMath-Regular.otf: STIX.zip
+	 # Extract the STIX Math font.
+	rm -rf tmp
+	mkdir tmp
+	@UNZIP@ -j $< -d tmp
+	mv tmp/$@ $@
+	rm -rf tmp
+	touch $@
+
+MOZTIXMath-Regular.woff: MakeFont.py STIXMath-Regular.otf chars.txt
+	 # Generate MOZSTIX Math.
+	@PYTHON@ $^ $@
+
+validate: metadata.xml
+	 # Convenient command to check that metadata.xml validates.
+	@XMLLINT@ --relaxng http://www.w3.org/TR/WOFF/metadata/woffmeta.rng $<
+
+clean:
+	 # Cleanup directory.
+	rm -rf *.otf *.woff *.ttx
+
+distclean: clean
+	 # Cleanup everything, including config scripts and downloaded files.
+	rm -rf autom4te.cache config.log config.status Makefile \
+	       *.zip unicode.xml

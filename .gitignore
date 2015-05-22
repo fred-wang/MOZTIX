@@ -1,0 +1,11 @@
+*.otf
+*.ttx
+*.woff
+*.woff2
+*.zip
+Makefile
+autom4te.cache/
+chars.txt
+config.log
+config.status
+unicode.xml

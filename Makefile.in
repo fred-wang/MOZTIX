@@ -5,7 +5,13 @@
 STIX_URL="http://downloads.sourceforge.net/project/stixfonts/Current%20Release/STIXv1.1.1-word.zip?r=http%3A%2F%2Fsourceforge.net%2Fprojects%2Fstixfonts%2Ffiles%2FCurrent%2520Release%2F&ts=1400494576&use_mirror=softlayer-ams"
 UNICODE_XML_URL="http://www.w3.org/2003/entities/2007xml/unicode.xml"
 
-all: MOZTIXMath-Regular.woff
+woff: MOZTIXMath-Regular.woff
+
+otf: MOZTIXMath-Regular.otf
+
+woff2: MOZTIXMath-Regular.woff2
+
+all: otf woff woff2
 
 STIX.zip:
 	 # Download the STIX fonts.
@@ -30,9 +36,15 @@ STIXMath-Regular.otf: STIX.zip
 	rm -rf tmp
 	touch $@
 
-MOZTIXMath-Regular.woff: MakeFont.py STIXMath-Regular.otf chars.txt metadata.xml
+MOZTIXMath-Regular.otf: MakeFont.py STIXMath-Regular.otf chars.txt metadata.xml
 	 # Generate MOZSTIX Math.
 	@PYTHON@ $^ $@
+
+MOZTIXMath-Regular.woff: MOZTIXMath-Regular.otf
+	@SFNT2WOFF@ $<
+
+MOZTIXMath-Regular.woff2: MOZTIXMath-Regular.otf
+	@WOFF2_COMPRESS@ $<
 
 validate: metadata.xml
 	 # Convenient command to check that metadata.xml validates.

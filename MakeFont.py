@@ -19,14 +19,29 @@ def binarySearchHasValue(aList, aValue):
 def isBasicLatin(aCodePoint):
     return 0 <= aCodePoint and aCodePoint <= 0xFFF
 
+def isSpacingModifierLetter(aCodePoint):
+    return 0x02B0 <= aCodePoint and aCodePoint <= 0x02FF
+
+def isCombiningDiacriticalMark(aCodePoint):
+    return 0x0300 <= aCodePoint and aCodePoint <= 0x036F
+
 def isGeneralPunctuation(aCodePoint):
     return 0x2000 <= aCodePoint and aCodePoint <= 0x206F
 
 def isCombiningMarkForSymbols(aCodePoint):
     return 0x20D0 <= aCodePoint and aCodePoint <= 0x20FF
 
+def isArrow(aCodePoint):
+    return 0x2190 <= aCodePoint and aCodePoint <= 0x21FF
+
+def isMathematicalSymbol(aCodePoint):
+    return 0x2200 <= aCodePoint and aCodePoint <= 0x22FF
+
 def isMiscellaneousTechnical(aCodePoint):
     return 0x2300 <= aCodePoint and aCodePoint <= 0x23FF
+
+def isEnclosedAlphanumeric(aCodePoint):
+    return 0x2460 <= aCodePoint and aCodePoint <= 0x24FF
 
 def isGeometricShape(aCodePoint):
     return 0x25A0 <= aCodePoint and aCodePoint <= 0x25FF
@@ -34,11 +49,17 @@ def isGeometricShape(aCodePoint):
 def isMiscelleanousSymbol(aCodePoint):
     return 0x2600 <= aCodePoint and aCodePoint <= 0x26FF
 
-def isEnclosedAlphanumeric(aCodePoint):
-    return 0x2460 <= aCodePoint and aCodePoint <= 0x24FF
-
 def isDingBats(aCodePoint):
     return 0x2700 <= aCodePoint and aCodePoint <= 0x27BF
+
+def isMiscelleanousMathSymbol(aCodePoint):
+    return 0x27C0 <= aCodePoint and aCodePoint <= 0x27EF
+
+def isSupplementalArrowA(aCodePoint):
+    return 0x27F0 <= aCodePoint and aCodePoint <= 0x27FF
+
+def isSupplementalArrowB(aCodePoint):
+    return 0x2900 <= aCodePoint and aCodePoint <= 0x297F
 
 def isMiscelleanousMathSymbolB(aCodePoint):
     return 0x2980 <= aCodePoint and aCodePoint <= 0x29FF
@@ -102,8 +123,6 @@ def getSSTYList(aGlyph):
         if table[0].find("ssty") > 0:
             return table[2:]
     return None
-
-#def isNonItalicMathVariants()
 
 if __name__ == "__main__":
     # Check command line argument
@@ -188,12 +207,20 @@ if __name__ == "__main__":
             # Exclude more non-stretchable characters
             if ((not isStretchable(font, codePoint)) and
                 (isBasicLatin(codePoint) or
+                 isSpacingModifierLetter(codePoint) or
+                 isCombiningDiacriticalMark(codePoint) or
                  isGeneralPunctuation(codePoint) or
                  isCombiningMarkForSymbols(codePoint) or
+                 isArrow(codePoint) or
+                 isMathematicalSymbol(codePoint) or
                  isMiscellaneousTechnical(codePoint) or
+                 isEnclosedAlphanumeric(codePoint) or
                  isGeometricShape(codePoint) or
                  isMiscelleanousSymbol(codePoint) or
                  isDingBats(codePoint) or
+                 isMiscelleanousMathSymbol(codePoint) or
+                 isSupplementalArrowA(codePoint) or
+                 isSupplementalArrowB(codePoint) or
                  isMiscelleanousMathSymbolB(codePoint) or
                  isMathOperatorSupplement(codePoint) or
                  isSupplementalSymbolAndArrow(codePoint) or
@@ -208,6 +235,73 @@ if __name__ == "__main__":
                  isSansSerifBoldItalicMathVariant(codePoint) or
                  isMonospaceMathVariant(codePoint))):
                     continue
+
+            # Exclude some stretchable characters that are "stretchy" in the
+            # MathML operator dictionary.
+            if (codePoint == 0x002F or # Slash
+                codePoint == 0x005C or # Backslash
+                codePoint == 0x0303 or # Combining tilde
+                codePoint == 0x0305 or # Combining overline
+                codePoint == 0x030C or # Combining caron
+                codePoint == 0x0330 or # Combining tilde below
+                codePoint == 0x0332 or # Combining low line
+                codePoint == 0x0338 or # Combining long solidius overlay
+                codePoint == 0x20D0 or # Combining left harpoon above
+                codePoint == 0x20D1 or # Combining ...
+                codePoint == 0x20D6 or # Combining ...
+                codePoint == 0x20D7 or # Combining ...
+                codePoint == 0x20E1 or # Combining ...
+                codePoint == 0x20EC or # Combining ...
+                codePoint == 0x20ED or # Combining ...
+                codePoint == 0x20EE or # Combining ...
+                codePoint == 0x20EF or # Combining ...
+                codePoint == 0x221B or # Cubic root
+                codePoint == 0x221C or # Fourth root
+                codePoint == 0x29F8 or # big solidus
+                codePoint == 0x29F9): # big reverse solidus
+                continue
+
+            # Exclude the least frequent large operators.
+            if (codePoint == 0x2231 or
+                codePoint == 0x2A00 or
+                codePoint == 0x2A03 or
+                codePoint == 0x2A04 or
+                codePoint == 0x2A05 or
+                codePoint == 0x2A06 or
+                codePoint == 0x2A07 or
+                codePoint == 0x2A08 or
+                codePoint == 0x2A09 or
+                codePoint == 0x2A0A or
+                codePoint == 0x2A0B or
+                codePoint == 0x2A0D or
+                codePoint == 0x2A0E or
+                codePoint == 0x2A0F or
+                codePoint == 0x2A10 or
+                codePoint == 0x2A11 or
+                codePoint == 0x2A12 or
+                codePoint == 0x2A13 or
+                codePoint == 0x2A14 or
+                codePoint == 0x2A15 or
+                codePoint == 0x2A16 or
+                codePoint == 0x2A17 or
+                codePoint == 0x2A18 or
+                codePoint == 0x2A19 or
+                codePoint == 0x2A1A or
+                codePoint == 0x2A1B or
+                codePoint == 0x2A1C or
+                codePoint == 0x2AFC or
+                codePoint == 0x2AFF):
+                continue
+
+            # Exclude some LetterLike symbols
+            if (codePoint == 0x2129 or
+                codePoint == 0x2132 or
+                codePoint == 0x2141 or
+                codePoint == 0x2142 or
+                codePoint == 0x2143 or
+                codePoint == 0x2144 or
+                codePoint == 0x214B):
+                continue
 
             # The list is probably already sorted, but just in case...
             insortWithoutDuplicate(kBaseCharsToPreserve, codePoint)
@@ -251,6 +345,12 @@ if __name__ == "__main__":
         if (not binarySearchHasValue(kGlyphsToPreserve, glyph.glyphname)):
             font.selection.select(("more", None), glyph.glyphname)
     font.clear()
+
+    # Clear more data from the MATH table.
+    UNSPECIFIED_TOP_ACCENT=32767
+    for glyph in font.glyphs():
+        glyph.isExtendedShape = False
+        glyph.topaccent = UNSPECIFIED_TOP_ACCENT
 
     # Generate the subset and close the font.
     font.generate(sys.argv[4])

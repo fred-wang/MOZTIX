@@ -193,6 +193,58 @@ if __name__ == "__main__":
         font.os2_version = 4
     font.os2_use_typo_metrics = True
 
+    # Add size variants for arrows
+    # See https://sourceforge.net/p/stixfonts/tracking/69/
+    font[0x2190].horizontalVariants = font[0x27F5].glyphname
+    font[0x2192].horizontalVariants = font[0x27F6].glyphname
+    font[0x2194].horizontalVariants = font[0x27F7].glyphname
+    font[0x21A4].horizontalVariants = font[0x27FB].glyphname
+    font[0x21A6].horizontalVariants = font[0x27FC].glyphname
+    font[0x21D0].horizontalVariants = font[0x27F8].glyphname
+    font[0x21D0].horizontalVariants = font[0x27F8].glyphname
+    font[0x21D2].horizontalVariants = font[0x27F9].glyphname
+    font[0x21D4].horizontalVariants = font[0x27FA].glyphname
+
+    # Copy some data for short arrows to stretch long arrows
+    # See https://sourceforge.net/p/stixfonts/tracking/65/
+    font[0x27F5].horizontalComponents = font[0x2190].horizontalComponents
+    font[0x27F6].horizontalComponents = font[0x2192].horizontalComponents
+    font[0x27F7].horizontalComponents = font[0x2194].horizontalComponents
+
+    # Set data some horizontal accents
+    # See https://sourceforge.net/p/stixfonts/tracking/66/
+    font[0x00AF].horizontalComponents = \
+        (('macron', 0, 0, 50, 311), ('macron', 1, 50, 0, 311))
+    font[0x203E].horizontalComponents = font[0x00AF].horizontalComponents
+    font[0x005F].horizontalComponents = \
+        (('underscore', 0, 0, 50, 500), ('underscore', 1, 50, 0, 500))
+    font[0x003D].horizontalComponents = \
+        (('equal', 0, 0, 50, 589), ('equal', 1, 50, 0, 589))
+    font[0x005E].horizontalComponents = font[0x02C6].horizontalComponents
+    font[0x007E].horizontalComponents = font[0x02DC].horizontalComponents
+
+    # Make more arrows stretchable
+    # See https://sourceforge.net/p/stixfonts/tracking/70/
+    font[0x295A].horizontalComponents = (('uni21BC', 0, 0, 50, 847), ('uni23AF', 1, 50, 50, 315), ('uni22A3', 0, 50, 0, 557))
+    font[0x295B].horizontalComponents = (('uni22A2', 0, 0, 50, 557), ('uni23AF', 1, 50, 50, 315), ('uni21C0', 0, 50, 0, 847))
+    font[0x295E].horizontalComponents = (('uni21BD', 0, 0, 50, 847), ('uni23AF', 1, 50, 50, 315), ('uni22A3', 0, 50, 0, 557))
+    font[0x295F].horizontalComponents = (('uni22A2', 0, 0, 50, 557), ('uni23AF', 1, 50, 50, 315), ('uni21C1', 0, 50, 0, 847))
+    font[0x21C1].horizontalComponents = (('uni23AF', 1, 0, 50, 315), ('uni21C1', 0, 50, 0, 847))
+    font[0x294E].horizontalComponents = (('uni21BC', 0, 0, 50, 847), ('uni23AF', 1, 50, 50, 315), ('uni21C0', 0, 50, 0, 847))
+    font[0x2950].horizontalComponents = (('uni21BD', 0, 0, 50, 847), ('uni23AF', 1, 50, 50, 315), ('uni21C1', 0, 50, 0, 847))
+    # FIXME: These are no longer stretchable in STIX1.1.1: U+21A9, U+21AA
+
+    # Set components to stretch integral
+    # FIXME: these characters are missing from STIX 1.1.1
+    # See https://sourceforge.net/p/stixfonts/tracking/68/
+    # font[0x222B].verticalComponents = 0x2321, 0x23AE, 0x2320
+
+    # Set data for lmoustache/rmoustache
+    # FIXME: these characters are missing from STIX 1.1.1
+    # See https://sourceforge.net/p/stixfonts/tracking/67/
+    # font[0x23B0].verticalComponents =
+    # font[0x23B1].verticalComponents =
+
     # Load the list of chars to preserve (MathML operators and mathclass)
     kBaseCharsToPreserve = []
     with open(sys.argv[2], "r") as charList:
@@ -236,7 +288,7 @@ if __name__ == "__main__":
                  isMonospaceMathVariant(codePoint))):
                     continue
 
-            # Exclude some stretchable characters that are "stretchy" in the
+            # Exclude some stretchable characters that are not "stretchy" in the
             # MathML operator dictionary.
             if (codePoint == 0x002F or # Slash
                 codePoint == 0x005C or # Backslash
@@ -259,38 +311,6 @@ if __name__ == "__main__":
                 codePoint == 0x221C or # Fourth root
                 codePoint == 0x29F8 or # big solidus
                 codePoint == 0x29F9): # big reverse solidus
-                continue
-
-            # Exclude the least frequent large operators.
-            if (codePoint == 0x2231 or
-                codePoint == 0x2A00 or
-                codePoint == 0x2A03 or
-                codePoint == 0x2A04 or
-                codePoint == 0x2A05 or
-                codePoint == 0x2A06 or
-                codePoint == 0x2A07 or
-                codePoint == 0x2A08 or
-                codePoint == 0x2A09 or
-                codePoint == 0x2A0A or
-                codePoint == 0x2A0B or
-                codePoint == 0x2A0D or
-                codePoint == 0x2A0E or
-                codePoint == 0x2A0F or
-                codePoint == 0x2A10 or
-                codePoint == 0x2A11 or
-                codePoint == 0x2A12 or
-                codePoint == 0x2A13 or
-                codePoint == 0x2A14 or
-                codePoint == 0x2A15 or
-                codePoint == 0x2A16 or
-                codePoint == 0x2A17 or
-                codePoint == 0x2A18 or
-                codePoint == 0x2A19 or
-                codePoint == 0x2A1A or
-                codePoint == 0x2A1B or
-                codePoint == 0x2A1C or
-                codePoint == 0x2AFC or
-                codePoint == 0x2AFF):
                 continue
 
             # Exclude some LetterLike symbols

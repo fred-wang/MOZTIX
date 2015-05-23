@@ -23,3 +23,10 @@ of the STIX fonts intended to be bundled into Mozilla applications and systems.
 * MOZTIXMath-Regular.otf: 87.7kb (87664 bytes)
 * MOZTIXMath-Regular.woff: 60.8kb (60760 bytes)
 * MOZTIXMath-Regular.woff2: 54.2kb (54236 bytes)
+
+23/05/2015 23:30 +0200
+
+* STIXMath-Regular.otf: 476.9kb (476872 bytes)
+* MOZTIXMath-Regular.otf: 100.1kb (100140 bytes)
+* MOZTIXMath-Regular.woff: 67kb (67024 bytes)
+* MOZTIXMath-Regular.woff2: 58.9kb (58880 bytes)

@@ -30,7 +30,7 @@ STIXMath-Regular.otf: STIX.zip
 	rm -rf tmp
 	touch $@
 
-MOZTIXMath-Regular.woff: MakeFont.py STIXMath-Regular.otf chars.txt
+MOZTIXMath-Regular.woff: MakeFont.py STIXMath-Regular.otf chars.txt metadata.xml
 	 # Generate MOZSTIX Math.
 	@PYTHON@ $^ $@
 
@@ -40,7 +40,7 @@ validate: metadata.xml
 
 clean:
 	 # Cleanup directory.
-	rm -rf *.otf *.woff *.ttx
+	rm -rf *.otf *.woff *.woff2 *.ttx
 
 distclean: clean
 	 # Cleanup everything, including config scripts and downloaded files.

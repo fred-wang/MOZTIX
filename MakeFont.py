@@ -242,10 +242,9 @@ if __name__ == "__main__":
     font[0x222B].verticalComponents = (('uni2321.s1', 0, 0, 50, 1145), ('uni23AE.s1', 1, 50, 50, 635), ('uni2320.s1', 0, 50, 0, 1145))
 
     # Set data for lmoustache/rmoustache
-    # FIXME: these characters are missing from STIX 1.1.1
     # See https://sourceforge.net/p/stixfonts/tracking/67/
-    # font[0x23B0].verticalComponents =
-    # font[0x23B1].verticalComponents =
+    font["uni23B0.s1"].unicode = 0x23B0
+    font["uni23B1.s1"].unicode = 0x23B1
 
     # Load the list of chars to preserve (MathML operators and mathclass)
     kBaseCharsToPreserve = []
@@ -330,7 +329,7 @@ if __name__ == "__main__":
 
     # Determine the list of glyphs to preserve. It is made of glyphs used for
     # characters in kBaseCharsToPreserve.
-    kGlyphsToPreserve = []
+    kGlyphsToPreserve = ["uni23B0.s1", "uni23B1.s1"]
     for u in kBaseCharsToPreserve:
         if u not in font:
             continue

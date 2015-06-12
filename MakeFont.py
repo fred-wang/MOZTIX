@@ -225,14 +225,15 @@ if __name__ == "__main__":
 
     # Make more arrows stretchable
     # See https://sourceforge.net/p/stixfonts/tracking/70/
-    font[0x295A].horizontalComponents = (('uni21BC', 0, 0, 50, 847), ('uni23AF', 1, 50, 50, 315), ('uni22A3', 0, 50, 0, 557))
-    font[0x295B].horizontalComponents = (('uni22A2', 0, 0, 50, 557), ('uni23AF', 1, 50, 50, 315), ('uni21C0', 0, 50, 0, 847))
-    font[0x295E].horizontalComponents = (('uni21BD', 0, 0, 50, 847), ('uni23AF', 1, 50, 50, 315), ('uni22A3', 0, 50, 0, 557))
-    font[0x295F].horizontalComponents = (('uni22A2', 0, 0, 50, 557), ('uni23AF', 1, 50, 50, 315), ('uni21C1', 0, 50, 0, 847))
+    font[0x295A].horizontalComponents = (('uni21BC', 0, 0, 50, 847), ('uni23AF', 1, 50, 50, 315), ('uni23D0', 0, 50, 0, 66))
+    font[0x295B].horizontalComponents = (('uni23D0', 0, 50, 0, 66), ('uni23AF', 1, 50, 50, 315), ('uni21C0', 0, 50, 0, 847))
+    font[0x295E].horizontalComponents = (('uni21BD', 0, 0, 50, 847), ('uni23AF', 1, 50, 50, 315), ('uni23D0', 0, 50, 0, 66))
+    font[0x295F].horizontalComponents = (('uni23D0', 0, 50, 0, 66), ('uni23AF', 1, 50, 50, 315), ('uni21C1', 0, 50, 0, 847))
     font[0x21C1].horizontalComponents = (('uni23AF', 1, 0, 50, 315), ('uni21C1', 0, 50, 0, 847))
     font[0x294E].horizontalComponents = (('uni21BC', 0, 0, 50, 847), ('uni23AF', 1, 50, 50, 315), ('uni21C0', 0, 50, 0, 847))
     font[0x2950].horizontalComponents = (('uni21BD', 0, 0, 50, 847), ('uni23AF', 1, 50, 50, 315), ('uni21C1', 0, 50, 0, 847))
-    # FIXME: These are no longer stretchable in STIX1.1.1: U+21A9, U+21AA
+    font[0x21A9].horizontalComponents = (('uni2190', 0, 0, 50, 786), ('uni23AF', 1, 50, 50, 315), ('uniE0B5.nu', 0, 50, 0, 203))
+    font[0x21AA].horizontalComponents = (('uniE0B4.nu', 0, 0, 50, 203), ('uni23AF', 1, 50, 50, 315), ('uni2192', 0, 50, 0, 786))
 
     # Set components to stretch integral
     # FIXME: these characters are missing from STIX 1.1.1

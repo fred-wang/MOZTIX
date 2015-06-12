@@ -201,7 +201,6 @@ if __name__ == "__main__":
     font[0x21A4].horizontalVariants = font[0x27FB].glyphname
     font[0x21A6].horizontalVariants = font[0x27FC].glyphname
     font[0x21D0].horizontalVariants = font[0x27F8].glyphname
-    font[0x21D0].horizontalVariants = font[0x27F8].glyphname
     font[0x21D2].horizontalVariants = font[0x27F9].glyphname
     font[0x21D4].horizontalVariants = font[0x27FA].glyphname
 

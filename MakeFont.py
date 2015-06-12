@@ -235,9 +235,11 @@ if __name__ == "__main__":
     font[0x21AA].horizontalComponents = (('uniE0B4.nu', 0, 0, 50, 203), ('uni23AF', 1, 50, 50, 315), ('uni2192', 0, 50, 0, 786))
 
     # Set components to stretch integral
-    # FIXME: these characters are missing from STIX 1.1.1
     # See https://sourceforge.net/p/stixfonts/tracking/68/
-    # font[0x222B].verticalComponents = 0x2321, 0x23AE, 0x2320
+    font["uni2321.s1"].unicode = 0x2321
+    font["uni23AE.s1"].unicode = 0x23AE
+    font["uni2320.s1"].unicode = 0x2320
+    font[0x222B].verticalComponents = (('uni2321.s1', 0, 0, 50, 1145), ('uni23AE.s1', 1, 50, 50, 635), ('uni2320.s1', 0, 50, 0, 1145))
 
     # Set data for lmoustache/rmoustache
     # FIXME: these characters are missing from STIX 1.1.1

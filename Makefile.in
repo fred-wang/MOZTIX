@@ -36,14 +36,16 @@ STIXMath-Regular.otf: STIX.zip
 	rm -rf tmp
 	touch $@
 
-MOZTIXMath-Regular.otf: MakeFont.py STIXMath-Regular.otf chars.txt metadata.xml
+MOZTIXMath-Regular.otf: MakeFont.py STIXMath-Regular.otf chars.txt
 	 # Generate MOZSTIX Math.
 	@PYTHON@ $^ $@
 
-MOZTIXMath-Regular.woff: MOZTIXMath-Regular.otf
-	@SFNT2WOFF@ $<
+MOZTIXMath-Regular.woff: metadata.xml MOZTIXMath-Regular.otf
+	@SFNT2WOFF@ -v1.1 -m $^
 
 MOZTIXMath-Regular.woff2: MOZTIXMath-Regular.otf
+	 # FIXME: We should pass the same metadata as MOZTIXMath-Regular.woff
+	 # https://github.com/fred-wang/MOZTIX/issues/1
 	@WOFF2_COMPRESS@ $<
 
 validate: metadata.xml

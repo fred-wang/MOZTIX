@@ -126,8 +126,8 @@ def getSSTYList(aGlyph):
 
 if __name__ == "__main__":
     # Check command line argument
-    if len(sys.argv) != 5:
-        print("usage: python %s input output charList metadata.xml" % sys.argv[0], file=sys.stderr)
+    if len(sys.argv) != 4:
+        print("usage: python %s input charList output" % sys.argv[0], file=sys.stderr)
         exit(1)
 
     # Open the input font.
@@ -180,12 +180,6 @@ if __name__ == "__main__":
             string = "http://scripts.sil.org/OFL"
         sfnt_names.append((language, strid, string))
     font.sfnt_names = tuple(sfnt_names)
-
-    # Add WOFF information
-    font.woffMajor = 1
-    font.woffMinor = 1
-    with open(sys.argv[3], "r") as metadataFile:
-        font.woffMetadata = metadataFile.read()
 
     # Ensure that USE_TYPO_METRICS is set.
     # See https://sourceforge.net/p/stixfonts/tracking/64/
@@ -374,5 +368,5 @@ if __name__ == "__main__":
         glyph.topaccent = UNSPECIFIED_TOP_ACCENT
 
     # Generate the subset and close the font.
-    font.generate(sys.argv[4])
+    font.generate(sys.argv[3])
     font.close()

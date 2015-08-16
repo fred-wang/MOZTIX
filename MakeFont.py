@@ -7,6 +7,8 @@ import bisect
 import fontforge
 import sys
 
+TEX_UNDEF = 0x7fff # See fontforge/splinefont.h
+
 def insortWithoutDuplicate(aList, aValue):
     insertPosition = bisect.bisect_left(aList, aValue)
     if insertPosition == len(aList) or aList[insertPosition] != aValue:
@@ -362,10 +364,9 @@ if __name__ == "__main__":
     font.clear()
 
     # Clear more data from the MATH table.
-    UNSPECIFIED_TOP_ACCENT=32767
     for glyph in font.glyphs():
         glyph.isExtendedShape = False
-        glyph.topaccent = UNSPECIFIED_TOP_ACCENT
+        glyph.topaccent = TEX_UNDEF
 
     # Generate the subset and close the font.
     font.generate(sys.argv[3])

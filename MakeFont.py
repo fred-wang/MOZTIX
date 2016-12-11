@@ -9,7 +9,7 @@ import sys
 
 TEX_UNDEF = 0x7fff # See fontforge/splinefont.h
 
-def insortWithoutDuplicate(aList, aValue):
+def insertWithoutDuplicate(aList, aValue):
     insertPosition = bisect.bisect_left(aList, aValue)
     if insertPosition == len(aList) or aList[insertPosition] != aValue:
         aList.insert(insertPosition, aValue)
@@ -144,7 +144,7 @@ if __name__ == "__main__":
     # font.os2_vendor = "STIX"
 
     # Add Mozilla Corporation as a copyright holder.
-    font.copyright = "Copyright (c) 2015 by Mozilla Corporation. %s" % font.copyright
+    font.copyright = "Copyright (c) 2016 by Mozilla Corporation. %s" % font.copyright
 
     # Add information for the modified MOZTIX version.
     # This should be kept consistent with the metadata.xml file.
@@ -183,23 +183,6 @@ if __name__ == "__main__":
         sfnt_names.append((language, strid, string))
     font.sfnt_names = tuple(sfnt_names)
 
-    # Ensure that USE_TYPO_METRICS is set.
-    # See https://sourceforge.net/p/stixfonts/tracking/64/
-    if font.os2_version and font.os2_version < 4:
-        font.os2_version = 4
-    font.os2_use_typo_metrics = True
-
-    # Add size variants for arrows
-    # See https://sourceforge.net/p/stixfonts/tracking/69/
-    font[0x2190].horizontalVariants = font[0x27F5].glyphname
-    font[0x2192].horizontalVariants = font[0x27F6].glyphname
-    font[0x2194].horizontalVariants = font[0x27F7].glyphname
-    font[0x21A4].horizontalVariants = font[0x27FB].glyphname
-    font[0x21A6].horizontalVariants = font[0x27FC].glyphname
-    font[0x21D0].horizontalVariants = font[0x27F8].glyphname
-    font[0x21D2].horizontalVariants = font[0x27F9].glyphname
-    font[0x21D4].horizontalVariants = font[0x27FA].glyphname
-
     # Copy some data for short arrows to stretch long arrows
     # See https://sourceforge.net/p/stixfonts/tracking/65/
     font[0x27F5].horizontalComponents = font[0x2190].horizontalComponents
@@ -208,39 +191,11 @@ if __name__ == "__main__":
 
     # Set data some horizontal accents
     # See https://sourceforge.net/p/stixfonts/tracking/66/
-    font[0x00AF].horizontalComponents = \
-        (('macron', 0, 0, 50, 311), ('macron', 1, 50, 0, 311))
-    font[0x203E].horizontalComponents = font[0x00AF].horizontalComponents
-    font[0x005F].horizontalComponents = \
-        (('underscore', 0, 0, 50, 500), ('underscore', 1, 50, 0, 500))
+    font[0x00AF].horizontalComponents = font[0x203E].horizontalComponents
     font[0x003D].horizontalComponents = \
         (('equal', 0, 0, 50, 589), ('equal', 1, 50, 0, 589))
-    font[0x005E].horizontalComponents = font[0x02C6].horizontalComponents
-    font[0x007E].horizontalComponents = font[0x02DC].horizontalComponents
-
-    # Make more arrows stretchable
-    # See https://sourceforge.net/p/stixfonts/tracking/70/
-    font[0x295A].horizontalComponents = (('uni21BC', 0, 0, 50, 847), ('uni23AF', 1, 50, 50, 315), ('uni23D0', 0, 50, 0, 66))
-    font[0x295B].horizontalComponents = (('uni23D0', 0, 50, 0, 66), ('uni23AF', 1, 50, 50, 315), ('uni21C0', 0, 50, 0, 847))
-    font[0x295E].horizontalComponents = (('uni21BD', 0, 0, 50, 847), ('uni23AF', 1, 50, 50, 315), ('uni23D0', 0, 50, 0, 66))
-    font[0x295F].horizontalComponents = (('uni23D0', 0, 50, 0, 66), ('uni23AF', 1, 50, 50, 315), ('uni21C1', 0, 50, 0, 847))
-    font[0x21C1].horizontalComponents = (('uni23AF', 1, 0, 50, 315), ('uni21C1', 0, 50, 0, 847))
-    font[0x294E].horizontalComponents = (('uni21BC', 0, 0, 50, 847), ('uni23AF', 1, 50, 50, 315), ('uni21C0', 0, 50, 0, 847))
-    font[0x2950].horizontalComponents = (('uni21BD', 0, 0, 50, 847), ('uni23AF', 1, 50, 50, 315), ('uni21C1', 0, 50, 0, 847))
-    font[0x21A9].horizontalComponents = (('uni2190', 0, 0, 50, 786), ('uni23AF', 1, 50, 50, 315), ('uniE0B5.nu', 0, 50, 0, 203))
-    font[0x21AA].horizontalComponents = (('uniE0B4.nu', 0, 0, 50, 203), ('uni23AF', 1, 50, 50, 315), ('uni2192', 0, 50, 0, 786))
-
-    # Set components to stretch integral
-    # See https://sourceforge.net/p/stixfonts/tracking/68/
-    font["uni2321.s1"].unicode = 0x2321
-    font["uni23AE.s1"].unicode = 0x23AE
-    font["uni2320.s1"].unicode = 0x2320
-    font[0x222B].verticalComponents = (('uni2321.s1', 0, 0, 50, 1145), ('uni23AE.s1', 1, 50, 50, 635), ('uni2320.s1', 0, 50, 0, 1145))
-
-    # Set data for lmoustache/rmoustache
-    # See https://sourceforge.net/p/stixfonts/tracking/67/
-    font["uni23B0.s1"].unicode = 0x23B0
-    font["uni23B1.s1"].unicode = 0x23B1
+    font[0x005E].horizontalVariants = font[0x0302].horizontalVariants
+    font[0x007E].horizontalVariants = font[0x0303].horizontalVariants
 
     # Load the list of chars to preserve (MathML operators and mathclass)
     kBaseCharsToPreserve = []
@@ -321,40 +276,40 @@ if __name__ == "__main__":
                 continue
 
             # The list is probably already sorted, but just in case...
-            insortWithoutDuplicate(kBaseCharsToPreserve, codePoint)
+            insertWithoutDuplicate(kBaseCharsToPreserve, codePoint)
 
     # Determine the list of glyphs to preserve. It is made of glyphs used for
     # characters in kBaseCharsToPreserve.
-    kGlyphsToPreserve = ["uni23B0.s1", "uni23B1.s1"]
+    kGlyphsToPreserve = []
     for u in kBaseCharsToPreserve:
         if u not in font:
             continue
         glyph = font[u]
 
         # Preserve the glyph for the base size.
-        insortWithoutDuplicate(kGlyphsToPreserve, glyph.glyphname)
+        insertWithoutDuplicate(kGlyphsToPreserve, glyph.glyphname)
 
         # Preserve glyphs for size variants.
         if glyph.horizontalVariants is not None:
             for glyphname in glyph.horizontalVariants.split(" "):
-                insortWithoutDuplicate(kGlyphsToPreserve, glyphname)
+                insertWithoutDuplicate(kGlyphsToPreserve, glyphname)
         if glyph.verticalVariants is not None:
             for glyphname in glyph.verticalVariants.split(" "):
-                insortWithoutDuplicate(kGlyphsToPreserve, glyphname)
+                insertWithoutDuplicate(kGlyphsToPreserve, glyphname)
 
         # Preserve glyphs used as components.
         if glyph.horizontalComponents is not None:
             for component in glyph.horizontalComponents:
-                insortWithoutDuplicate(kGlyphsToPreserve, component[0])
+                insertWithoutDuplicate(kGlyphsToPreserve, component[0])
         if glyph.verticalComponents is not None:
             for component in glyph.verticalComponents:
-                insortWithoutDuplicate(kGlyphsToPreserve, component[0])
+                insertWithoutDuplicate(kGlyphsToPreserve, component[0])
 
         # Preserve glyphs used for ssty variants.
         sstyList = getSSTYList(glyph)
         if sstyList is not None:
             for glyphname in sstyList:
-                insortWithoutDuplicate(kGlyphsToPreserve, glyphname)
+                insertWithoutDuplicate(kGlyphsToPreserve, glyphname)
 
     # Now remove all the glyphs outside kGlyphsToPreserve.
     font.selection.none()

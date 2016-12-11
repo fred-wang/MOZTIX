@@ -40,17 +40,11 @@ MOZTIXMath-Regular.otf: MakeFont.py STIX2Math.otf chars.txt
 	 # Generate MOZTIX Math.
 	@PYTHON@ $^ $@
 
-MOZTIXMath-Regular.woff: metadata.xml MOZTIXMath-Regular.otf
-	@SFNT2WOFF@ -v1.1 -m $^
+MOZTIXMath-Regular.woff: MOZTIXMath-Regular.otf
+	@PYTHON@ compress-font.py $< "woff"
 
 MOZTIXMath-Regular.woff2: MOZTIXMath-Regular.otf
-	 # FIXME: We should pass the same metadata as MOZTIXMath-Regular.woff
-	 # https://github.com/fred-wang/MOZTIX/issues/1
-	@WOFF2_COMPRESS@ $<
-
-validate: metadata.xml
-	 # Convenient command to check that metadata.xml validates.
-	@XMLLINT@ --relaxng http://www.w3.org/TR/WOFF/metadata/woffmeta.rng $<
+	@PYTHON@ compress-font.py $< "woff2"
 
 clean:
 	 # Cleanup directory.

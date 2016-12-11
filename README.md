@@ -6,5 +6,5 @@ systems.
 
 * STIX2Math.otf: 738K (755584 bytes)
 * MOZTIXMath-Regular.otf: 152K (155524 bytes)
-* MOZTIXMath-Regular.woff: 105K (107413 bytes)
-* MOZTIXMath-Regular.woff2: 89K (90648 bytes)
+* MOZTIXMath-Regular.woff: 97K (98968 bytes)
+* MOZTIXMath-Regular.woff2: 88K (89676 bytes)
